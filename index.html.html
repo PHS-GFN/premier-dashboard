@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premier High School - Gallery North Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header .subtitle {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .filter-btn.active {
+            background: white;
+            color: #667eea;
+            border-color: white;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #666;
+        }
+        
+        .wins-banner {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        
+        .wins-banner h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .wins-list {
+            display: grid;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .win-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 6px;
+        }
+        
+        .metrics-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .metrics-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .metrics-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #666;
+        }
+        
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+        
+        .metric-label {
+            font-size: 0.95rem;
+            color: #666;
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .status-good { color: #10b981; }
+        .status-warning { color: #f59e0b; }
+        .status-danger { color: #ef4444; }
+        
+        .advisor-spotlight {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+        
+        .advisor-spotlight h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .advisor-spotlight-name {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .spotlight-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .spotlight-stat {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .spotlight-stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        
+        .spotlight-stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .chart-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .chart-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        
+        .student-table {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+        
+        .student-table h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background: #f8f9fa;
+        }
+        
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        tbody tr:hover {
+            background: #f8f9ff;
+        }
+        
+        .tier-crisis { color: #ef4444; font-weight: bold; }
+        .tier-risk { color: #f59e0b; font-weight: bold; }
+        .tier-watch { color: #3b82f6; }
+        .tier-track { color: #10b981; }
+        
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #999;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎓 Premier High School - Gallery North</h1>
+        <div class="subtitle">CTE Student Progress Dashboard</div>
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="sytd">School Year to Date</button>
+            <button class="filter-btn" data-filter="fall">Fall Semester</button>
+            <button class="filter-btn" data-filter="spring">Spring Semester</button>
+        </div>
+        <div class="subtitle" style="margin-top: 1rem;" id="dateRange">Loading...</div>
+    </div>
+
+    <div class="container">
+        <div id="loadingMessage" class="loading">
+            📊 Loading data from Google Sheets...
+        </div>
+
+        <div id="dashboardContent" style="display: none;">
+            <!-- Wins Banner -->
+            <div class="wins-banner">
+                <h2>🏆 This Period's Wins</h2>
+                <div class="wins-list" id="winsList"></div>
+            </div>
+
+            <!-- Advisor Spotlight -->
+            <div class="advisor-spotlight" id="advisorSpotlight"></div>
+
+            <!-- Metrics Split -->
+            <div class="metrics-split">
+                <div class="metrics-section">
+                    <h3>📈 Performance Metrics</h3>
+                    <div class="metric-row">
+                        <span class="metric-label">Average Velocity</span>
+                        <span class="metric-value status-good" id="avgVelocity">-</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Students On Track or Ahead</span>
+                        <span class="metric-value status-good" id="onTrackCount">-</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Students Improving</span>
+                        <span class="metric-value status-good" id="improvingCount">-</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Average Attendance</span>
+                        <span class="metric-value" id="avgAttendance">-</span>
+                    </div>
+                </div>
+
+                <div class="metrics-section">
+                    <h3>⚠️ Areas of Concern</h3>
+                    <div class="metric-row">
+                        <span class="metric-label">Crisis Students</span>
+                        <span class="metric-value status-danger" id="crisisCount">-</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">High Risk Students</span>
+                        <span class="metric-value status-warning" id="riskCount">-</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Total Below Target</span>
+                        <span class="metric-value status-warning" id="belowTarget">-</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Students Declining</span>
+                        <span class="metric-value status-danger" id="decliningCount">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Momentum Chart -->
+            <div class="chart-section">
+                <h3>📊 Student Momentum Over Time</h3>
+                <canvas id="momentumChart" height="80"></canvas>
+            </div>
+
+            <!-- Student Table -->
+            <div class="student-table">
+                <h3>📋 All Students</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Advisor</th>
+                            <th>Current Units</th>
+                            <th>Tracking</th>
+                            <th>Velocity</th>
+                            <th>Acceleration</th>
+                            <th>Tier</th>
+                            <th>Attendance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer" id="lastUpdate">
+        Last Updated: -
+    </div>
+
+    <script>
+        // ================== CONFIGURATION ==================
+        // Replace this with your Google Sheets ID from the URL
+        const SHEET_ID = '1QZIDSV1l7mee6WUTgjeuKr6drmp97pDBF68jYD00ieA';
+        const SHEET_NAME = 'Dashboard_Data';
+        
+        // Google Sheets CSV export URL
+        const DATA_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${SHEET_NAME}`;
+        
+        // ================== GLOBAL STATE ==================
+        let rawData = [];
+        let processedData = null;
+        let currentFilter = 'sytd';
+        let momentumChart = null;
+        
+        // ================== DATA LOADING ==================
+        async function loadData() {
+            try {
+                const response = await fetch(DATA_URL);
+                const csvText = await response.text();
+                rawData = parseCSV(csvText);
+                console.log(`Loaded ${rawData.length} rows from Google Sheets`);
+                applyFilter(currentFilter);
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('loadingMessage').innerHTML = 
+                    '❌ Error loading data. Please check your Google Sheets share settings.<br><small>Make sure "Anyone with the link can view" is enabled.</small>';
+            }
+        }
+        
+        function parseCSV(csv) {
+            const lines = csv.split('\n');
+            const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+            const data = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i].trim()) continue;
+                const values = parseCSVLine(lines[i]);
+                const row = {};
+                headers.forEach((header, index) => {
+                    row[header] = values[index] ? values[index].replace(/"/g, '').trim() : '';
+                });
+                data.push(row);
+            }
+            
+            return data;
+        }
+        
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < line.length; i++) {
+                if (line[i] === '"') {
+                    inQuotes = !inQuotes;
+                } else if (line[i] === ',' && !inQuotes) {
+                    result.push(current);
+                    current = '';
+                } else {
+                    current += line[i];
+                }
+            }
+            result.push(current);
+            return result;
+        }
+        
+        // ================== FILTERING ==================
+        function applyFilter(filter) {
+            currentFilter = filter;
+            
+            // Update button states
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.filter === filter) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Filter data by date range
+            let filteredData = rawData;
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            
+            if (filter === 'fall') {
+                // August - December
+                filteredData = rawData.filter(row => {
+                    const date = new Date(row.Week_Date);
+                    const month = date.getMonth();
+                    return month >= 7 && month <= 11; // Aug = 7, Dec = 11
+                });
+            } else if (filter === 'spring') {
+                // January - May
+                filteredData = rawData.filter(row => {
+                    const date = new Date(row.Week_Date);
+                    const month = date.getMonth();
+                    return month >= 0 && month <= 4; // Jan = 0, May = 4
+                });
+            }
+            
+            // Process the filtered data
+            processedData = processData(filteredData);
+            
+            // Update UI
+            updateDashboard();
+        }
+        
+        // ================== DATA PROCESSING ==================
+        function processData(data) {
+            // Group data by student
+            const studentMap = new Map();
+            
+            data.forEach(row => {
+                const name = row['Student Name'];
+                if (!name) return;
+                
+                if (!studentMap.has(name)) {
+                    studentMap.set(name, []);
+                }
+                
+                studentMap.get(name).push({
+                    date: new Date(row.Week_Date),
+                    week: row.Week_Date,
+                    advisor: row.Advisor,
+                    attendance: parseFloat(row['% Present']) || 0,
+                    expected: parseFloat(row['Units Expected']) || 0,
+                    completed: parseInt(row['# Units Completed']) || 0
+                });
+            });
+            
+            // Calculate metrics for each student
+            const students = [];
+            
+            studentMap.forEach((records, name) => {
+                // Sort by date
+                records.sort((a, b) => a.date - b.date);
+                
+                if (records.length === 0) return;
+                
+                const latest = records[records.length - 1];
+                const earliest = records[0];
+                
+                // Calculate velocity (units per week)
+                const weeks = records.length > 1 ? records.length - 1 : 1;
+                const unitsGained = latest.completed - earliest.completed;
+                const velocity = weeks > 0 ? unitsGained / weeks : 0;
+                
+                // Calculate acceleration (change in velocity)
+                let acceleration = 0;
+                if (records.length >= 3) {
+                    const midPoint = Math.floor(records.length / 2);
+                    const firstHalf = records.slice(0, midPoint);
+                    const secondHalf = records.slice(midPoint);
+                    
+                    const firstVelocity = (firstHalf[firstHalf.length - 1].completed - firstHalf[0].completed) / firstHalf.length;
+                    const secondVelocity = (secondHalf[secondHalf.length - 1].completed - secondHalf[0].completed) / secondHalf.length;
+                    
+                    acceleration = secondVelocity - firstVelocity;
+                }
+                
+                // Calculate tracking (ahead/behind)
+                const tracking = latest.completed - latest.expected;
+                
+                // Determine tier
+                let tier = 'On Track';
+                if (tracking >= 0) {
+                    tier = 'On Track';
+                } else if (tracking >= -5) {
+                    tier = 'Watch';
+                } else if (tracking >= -10) {
+                    tier = 'High Risk';
+                } else {
+                    tier = 'Crisis';
+                }
+                
+                // Average attendance
+                const avgAttendance = records.reduce((sum, r) => sum + r.attendance, 0) / records.length;
+                
+                students.push({
+                    name,
+                    advisor: latest.advisor,
+                    records,
+                    latest,
+                    velocity,
+                    acceleration,
+                    tracking,
+                    tier,
+                    avgAttendance,
+                    unitsGained
+                });
+            });
+            
+            // Calculate summary stats
+            const summary = {
+                totalStudents: students.length,
+                avgVelocity: students.reduce((sum, s) => sum + s.velocity, 0) / students.length,
+                avgAttendance: students.reduce((sum, s) => sum + s.avgAttendance, 0) / students.length,
+                onTrack: students.filter(s => s.tier === 'On Track').length,
+                watch: students.filter(s => s.tier === 'Watch').length,
+                highRisk: students.filter(s => s.tier === 'High Risk').length,
+                crisis: students.filter(s => s.tier === 'Crisis').length,
+                improving: students.filter(s => s.acceleration > 0).length,
+                declining: students.filter(s => s.acceleration < 0).length,
+                stable: students.filter(s => s.acceleration === 0).length
+            };
+            
+            // Find highlights
+            const topGainers = [...students].sort((a, b) => b.unitsGained - a.unitsGained).slice(0, 5);
+            const topAccel = [...students].filter(s => s.acceleration > 0).sort((a, b) => b.acceleration - a.acceleration).slice(0, 5);
+            const perfectWeek = students.filter(s => s.avgAttendance >= 95 && s.velocity >= 2);
+            
+            // Advisor stats
+            const advisorMap = new Map();
+            students.forEach(s => {
+                if (!advisorMap.has(s.advisor)) {
+                    advisorMap.set(s.advisor, []);
+                }
+                advisorMap.get(s.advisor).push(s);
+            });
+            
+            // Find top advisor
+            let topAdvisor = null;
+            let topAdvisorScore = -Infinity;
+            advisorMap.forEach((students, name) => {
+                const avgVel = students.reduce((sum, s) => sum + s.velocity, 0) / students.length;
+                const improving = students.filter(s => s.acceleration > 0).length / students.length;
+                const score = avgVel + (improving * 2);
+                
+                if (score > topAdvisorScore) {
+                    topAdvisorScore = score;
+                    topAdvisor = {
+                        name,
+                        students: students.length,
+                        avgVelocity: avgVel,
+                        improving: students.filter(s => s.acceleration > 0).length,
+                        improvingPercent: (students.filter(s => s.acceleration > 0).length / students.length * 100),
+                        crisis: students.filter(s => s.tier === 'Crisis').length,
+                        avgAccel: students.reduce((sum, s) => sum + s.acceleration, 0) / students.length
+                    };
+                }
+            });
+            
+            return {
+                students,
+                summary,
+                highlights: {
+                    topGainers,
+                    topAccel,
+                    perfectWeek
+                },
+                topAdvisor
+            };
+        }
+        
+        // ================== UI UPDATES ==================
+        function updateDashboard() {
+            if (!processedData) return;
+            
+            const { students, summary, highlights, topAdvisor } = processedData;
+            
+            // Show dashboard
+            document.getElementById('loadingMessage').style.display = 'none';
+            document.getElementById('dashboardContent').style.display = 'block';
+            
+            // Update date range
+            const dates = students.flatMap(s => s.records.map(r => r.date));
+            const minDate = new Date(Math.min(...dates));
+            const maxDate = new Date(Math.max(...dates));
+            document.getElementById('dateRange').textContent = 
+                `${minDate.toLocaleDateString()} - ${maxDate.toLocaleDateString()}`;
+            
+            // Update metrics
+            document.getElementById('avgVelocity').textContent = summary.avgVelocity.toFixed(2) + ' u/wk';
+            document.getElementById('onTrackCount').textContent = summary.onTrack;
+            document.getElementById('improvingCount').textContent = summary.improving;
+            document.getElementById('avgAttendance').textContent = summary.avgAttendance.toFixed(1) + '%';
+            document.getElementById('crisisCount').textContent = summary.crisis;
+            document.getElementById('riskCount').textContent = summary.highRisk;
+            document.getElementById('belowTarget').textContent = summary.watch + summary.highRisk + summary.crisis;
+            document.getElementById('decliningCount').textContent = summary.declining;
+            
+            // Update wins
+            const wins = [
+                `✅ ${summary.improving} students improving their velocity`,
+                `✅ ${highlights.topGainers.length} students with significant progress`,
+                `✅ ${highlights.perfectWeek.length} students achieved "Perfect Week"`,
+                `✅ ${summary.onTrack} students on track or ahead`,
+                `✅ Average velocity: ${summary.avgVelocity.toFixed(2)} units/week`
+            ];
+            document.getElementById('winsList').innerHTML = wins.map(w => `<div class="win-item">${w}</div>`).join('');
+            
+            // Update advisor spotlight
+            if (topAdvisor) {
+                document.getElementById('advisorSpotlight').innerHTML = `
+                    <h2>🌟 Advisor Spotlight</h2>
+                    <div class="advisor-spotlight-name">${topAdvisor.name}</div>
+                    <div class="spotlight-stats">
+                        <div class="spotlight-stat">
+                            <div class="spotlight-stat-value">${topAdvisor.improving}/${topAdvisor.students}</div>
+                            <div class="spotlight-stat-label">Students Improving (${topAdvisor.improvingPercent.toFixed(0)}%)</div>
+                        </div>
+                        <div class="spotlight-stat">
+                            <div class="spotlight-stat-value">${topAdvisor.crisis}</div>
+                            <div class="spotlight-stat-label">Crisis Students</div>
+                        </div>
+                        <div class="spotlight-stat">
+                            <div class="spotlight-stat-value">${topAdvisor.avgVelocity.toFixed(2)}</div>
+                            <div class="spotlight-stat-label">Avg Velocity (u/wk)</div>
+                        </div>
+                        <div class="spotlight-stat">
+                            <div class="spotlight-stat-value">${topAdvisor.avgAccel > 0 ? '+' : ''}${topAdvisor.avgAccel.toFixed(2)}</div>
+                            <div class="spotlight-stat-label">Avg Acceleration</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Update student table
+            const sortedStudents = [...students].sort((a, b) => b.velocity - a.velocity);
+            document.getElementById('studentTableBody').innerHTML = sortedStudents.map(s => `
+                <tr>
+                    <td>${s.name}</td>
+                    <td>${s.advisor}</td>
+                    <td>${s.latest.completed}</td>
+                    <td>${s.tracking > 0 ? '+' : ''}${s.tracking}</td>
+                    <td>${s.velocity.toFixed(2)}</td>
+                    <td>${s.acceleration > 0 ? '+' : ''}${s.acceleration.toFixed(2)}</td>
+                    <td class="tier-${s.tier.toLowerCase().replace(' ', '')}">${s.tier}</td>
+                    <td>${s.avgAttendance.toFixed(1)}%</td>
+                </tr>
+            `).join('');
+            
+            // Update chart
+            updateMomentumChart();
+            
+            // Update timestamp
+            document.getElementById('lastUpdate').textContent = `Last Updated: ${new Date().toLocaleString()}`;
+        }
+        
+        function updateMomentumChart() {
+            if (!processedData) return;
+            
+            const { students } = processedData;
+            
+            // Get all unique dates
+            const allDates = [...new Set(students.flatMap(s => s.records.map(r => r.week)))].sort();
+            
+            // Calculate tier counts for each date
+            const tierData = {
+                'On Track': [],
+                'Watch': [],
+                'High Risk': [],
+                'Crisis': []
+            };
+            
+            allDates.forEach(date => {
+                const counts = { 'On Track': 0, 'Watch': 0, 'High Risk': 0, 'Crisis': 0 };
+                
+                students.forEach(student => {
+                    const record = student.records.find(r => r.week === date);
+                    if (!record) return;
+                    
+                    const tracking = record.completed - record.expected;
+                    let tier = 'On Track';
+                    if (tracking < 0) tier = 'Watch';
+                    if (tracking < -5) tier = 'High Risk';
+                    if (tracking < -10) tier = 'Crisis';
+                    
+                    counts[tier]++;
+                });
+                
+                tierData['On Track'].push(counts['On Track']);
+                tierData['Watch'].push(counts['Watch']);
+                tierData['High Risk'].push(counts['High Risk']);
+                tierData['Crisis'].push(counts['Crisis']);
+            });
+            
+            const ctx = document.getElementById('momentumChart');
+            
+            if (momentumChart) {
+                momentumChart.destroy();
+            }
+            
+            momentumChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: allDates.map(d => new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })),
+                    datasets: [
+                        {
+                            label: 'On Track',
+                            data: tierData['On Track'],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Watch',
+                            data: tierData['Watch'],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'High Risk',
+                            data: tierData['High Risk'],
+                            borderColor: '#f59e0b',
+                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Crisis',
+                            data: tierData['Crisis'],
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Students'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // ================== EVENT LISTENERS ==================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Filter button clicks
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    applyFilter(btn.dataset.filter);
+                });
+            });
+            
+            // Load data
+            loadData();
+        });
+    </script>
+</body>
+</html>
