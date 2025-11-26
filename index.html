@@ -553,11 +553,13 @@
         
         .table-wrapper {
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 1200px;
         }
         
         thead {
@@ -565,12 +567,13 @@
         }
         
         th {
-            padding: 1rem;
+            padding: 1rem 0.5rem;
             text-align: left;
             font-weight: 600;
             color: #666;
             border-bottom: 2px solid #e2e8f0;
             white-space: nowrap;
+            font-size: 0.9rem;
         }
         
         th.sortable {
@@ -583,9 +586,23 @@
         }
         
         td {
-            padding: 0.75rem 1rem;
+            padding: 0.75rem 0.5rem;
             border-bottom: 1px solid #f1f5f9;
+            font-size: 0.9rem;
         }
+        
+        /* Specific column widths for better fit */
+        th:nth-child(1), td:nth-child(1) { min-width: 180px; } /* Student Name */
+        th:nth-child(2), td:nth-child(2) { width: 100px; } /* Risk Tier */
+        th:nth-child(3), td:nth-child(3) { width: 90px; } /* Velocity */
+        th:nth-child(4), td:nth-child(4) { width: 120px; } /* Trajectory */
+        th:nth-child(5), td:nth-child(5) { width: 100px; } /* Acceleration */
+        th:nth-child(6), td:nth-child(6) { min-width: 180px; } /* Pattern */
+        th:nth-child(7), td:nth-child(7) { width: 80px; } /* Badges */
+        th:nth-child(8), td:nth-child(8) { width: 100px; } /* Units */
+        th:nth-child(9), td:nth-child(9) { width: 100px; } /* Ahead/Behind */
+        th:nth-child(10), td:nth-child(10) { width: 100px; } /* Last Activity */
+        th:nth-child(11), td:nth-child(11) { width: 100px; } /* Attendance */
         
         tbody tr {
             transition: background 0.2s;
@@ -790,6 +807,7 @@
     <div class="header">
         <h1>🎓 Premier High School - Gallery North</h1>
         <div class="subtitle">Student Progress Dashboard</div>
+        <div class="subtitle" id="dateRange" style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.85;"></div>
     </div>
 
     <div class="container">
@@ -805,27 +823,27 @@
                 <div class="wins-list" id="winsList"></div>
             </div>
 
-            <!-- Challenges & Celebrations -->
-            <div class="metrics-split">
-                <div class="metrics-section challenges">
-                    <h3>⚠️ Challenges</h3>
-                    <div id="challengesContent"></div>
-                </div>
-                
-                <div class="metrics-section celebrations">
-                    <h3>✨ Celebrations</h3>
-                    <div id="celebrationsContent"></div>
-                </div>
-            </div>
-
-            <!-- Advisor Spotlight -->
-            <div class="advisor-spotlight" id="advisorSpotlight"></div>
-
             <!-- This Week's Stars -->
             <div class="highlights-section">
                 <h2>⭐ This Week's Stars</h2>
                 <div class="highlights-grid" id="highlightsGrid"></div>
             </div>
+
+            <!-- Celebrations & Challenges -->
+            <div class="metrics-split">
+                <div class="metrics-section celebrations">
+                    <h3>✨ Celebrations</h3>
+                    <div id="celebrationsContent"></div>
+                </div>
+                
+                <div class="metrics-section challenges">
+                    <h3>⚠️ Challenges</h3>
+                    <div id="challengesContent"></div>
+                </div>
+            </div>
+
+            <!-- Advisor Spotlight -->
+            <div class="advisor-spotlight" id="advisorSpotlight"></div>
 
             <!-- Advisor Performance -->
             <div class="section-header">👥 Advisor Performance (Click to View Students)</div>
@@ -881,13 +899,13 @@
                             <tr>
                                 <th class="sortable" data-sort="name">Student Name</th>
                                 <th class="sortable" data-sort="tier">Risk Tier</th>
-                                <th class="sortable" data-sort="trajectory">Trajectory</th>
                                 <th class="sortable" data-sort="velocity">Velocity</th>
+                                <th class="sortable" data-sort="trajectory">Trajectory</th>
                                 <th class="sortable" data-sort="acceleration">Acceleration</th>
                                 <th>Pattern</th>
                                 <th>Badges</th>
                                 <th class="sortable" data-sort="units">Completed Units</th>
-                                <th class="sortable" data-sort="behind">Behind/Ahead</th>
+                                <th class="sortable" data-sort="behind">Ahead/Behind</th>
                                 <th class="sortable" data-sort="days_since">Last Activity</th>
                                 <th class="sortable" data-sort="attendance">Attendance</th>
                             </tr>
@@ -926,13 +944,13 @@
                             <tr>
                                 <th class="sortable" data-sort="name">Student Name</th>
                                 <th class="sortable" data-sort="tier">Risk Tier</th>
-                                <th class="sortable" data-sort="trajectory">Trajectory</th>
                                 <th class="sortable" data-sort="velocity">Velocity</th>
+                                <th class="sortable" data-sort="trajectory">Trajectory</th>
                                 <th class="sortable" data-sort="acceleration">Acceleration</th>
                                 <th>Pattern</th>
                                 <th>Badges</th>
                                 <th class="sortable" data-sort="units">Completed Units</th>
-                                <th class="sortable" data-sort="behind">Behind/Ahead</th>
+                                <th class="sortable" data-sort="behind">Ahead/Behind</th>
                                 <th class="sortable" data-sort="days_since">Last Activity</th>
                                 <th class="sortable" data-sort="attendance">Attendance</th>
                             </tr>
@@ -994,7 +1012,7 @@
                                 <th>Risk Tier</th>
                                 <th>Trajectory</th>
                                 <th>Velocity</th>
-                                <th>Behind/Ahead</th>
+                                <th>Ahead/Behind</th>
                                 <th>Attendance</th>
                             </tr>
                         </thead>
@@ -1006,7 +1024,8 @@
     </div>
 
     <div class="footer" id="lastUpdate">
-        Last Updated: -
+        Last Updated: -<br>
+        <small style="opacity: 0.7; font-size: 0.85rem;">Created by Tim Keener for Premier HS Gallery North - November 2025</small>
     </div>
 
     <script>
@@ -1208,28 +1227,36 @@
                 
                 const tierChange = tier - firstTier;
                 
-                // Determine trajectory
+                // Determine trajectory - consider both acceleration AND current position
                 let trajectory = 'stable';
                 let trajectoryLabel = 'Stable';
                 let trajectoryIcon = '➡️';
                 
-                if (acceleration > 1.5) {
+                // Strong positive trajectory
+                if (acceleration > 1.5 && velocity >= 1.5) {
                     trajectory = 'breakthrough';
                     trajectoryLabel = 'BLAST OFF!';
                     trajectoryIcon = '🚀';
-                } else if (acceleration > 0.5) {
+                } 
+                // Building momentum
+                else if (acceleration > 0.5) {
                     trajectory = 'building';
                     trajectoryLabel = 'Building';
                     trajectoryIcon = '📈';
-                } else if (acceleration < -1.5) {
+                } 
+                // Critical decline - only if behind or losing ground fast
+                else if (acceleration < -1.5 && (tracking < -3 || velocity < 1.5)) {
                     trajectory = 'rapid_decline';
                     trajectoryLabel = 'URGENT!';
                     trajectoryIcon = '⚠️';
-                } else if (acceleration < -0.5) {
+                } 
+                // Regular decline
+                else if (acceleration < -0.5) {
                     trajectory = 'declining';
                     trajectoryLabel = 'Declining';
                     trajectoryIcon = '📉';
                 }
+                // Otherwise stable
                 
                 // Average attendance
                 const avgAttendance = records.reduce((sum, r) => sum + r.attendance, 0) / records.length;
@@ -1263,11 +1290,34 @@
                     consistencyIcon = '🟡';
                 }
                 
-                // Pattern display (dots)
-                const patternDisplay = records.slice(-8).map((r, i) => {
-                    if (i === 0) return { filled: r.completed > 0 };
-                    const weeklyGain = r.completed - records[records.indexOf(r) - 1].completed;
-                    return { filled: weeklyGain >= 2 };
+                // Pattern display (dots) - show current semester or last 12 weeks
+                const now = new Date();
+                const currentYear = now.getFullYear();
+                
+                // Determine current semester
+                const fallStart = new Date(currentYear, 7, 12); // Aug 12
+                const fallEnd = new Date(currentYear, 11, 19); // Dec 19
+                const springStart = new Date(currentYear, 0, 6); // Jan 6
+                const springEnd = new Date(currentYear, 5, 4); // Jun 4
+                
+                let semesterRecords = records;
+                if (now >= fallStart && now <= fallEnd) {
+                    // Fall semester
+                    semesterRecords = records.filter(r => r.date >= fallStart && r.date <= fallEnd);
+                } else if (now >= springStart && now <= springEnd) {
+                    // Spring semester
+                    semesterRecords = records.filter(r => r.date >= springStart && r.date <= springEnd);
+                }
+                
+                // If no semester records or too many, show last 12
+                let displayRecords = semesterRecords.length > 0 && semesterRecords.length <= 20 ? 
+                    semesterRecords : records.slice(-12);
+                
+                const patternDisplay = displayRecords.map((r, i) => {
+                    if (i === 0) return { filled: r.completed > 0, week: r.week };
+                    const prevRecord = displayRecords[i - 1];
+                    const weeklyGain = r.completed - prevRecord.completed;
+                    return { filled: weeklyGain >= 2, week: r.week };
                 });
                 
                 // Calculate superstars (high performers) - achievable standards
@@ -1432,6 +1482,11 @@
             document.getElementById('loadingMessage').style.display = 'none';
             document.getElementById('mainView').classList.add('active');
             
+            // Set date range
+            const firstDate = new Date(dashboardData.sortedDates[0]).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const lastDate = new Date(dashboardData.sortedDates[dashboardData.sortedDates.length - 1]).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            document.getElementById('dateRange').textContent = `Data Period: ${firstDate} - ${lastDate}`;
+            
             renderWinsBanner();
             renderChallengesCelebrations();
             renderAdvisorSpotlight();
@@ -1442,8 +1497,8 @@
             renderStudentTable();
             setupEventListeners();
             
-            document.getElementById('lastUpdate').textContent = 
-                `Last Updated: ${dashboardData.generated}`;
+            document.getElementById('lastUpdate').innerHTML = 
+                `Last Updated: ${dashboardData.generated}<br><small style="opacity: 0.7; font-size: 0.85rem;">Created by Tim Keener for Premier HS Gallery North - November 2025</small>`;
         }
         
         function renderWinsBanner() {
@@ -1507,37 +1562,44 @@
                 { 
                     label: 'Crisis Students', 
                     value: summary.crisis + ` (${crisisPercent.toFixed(0)}%)`,
-                    score: crisisPercent * 2 // Weight heavily
+                    score: crisisPercent * 2,
+                    students: students.filter(s => s.tier === 1).map(s => s.name)
                 },
                 { 
                     label: 'High Risk Students', 
                     value: summary.highRisk + ` (${highRiskPercent.toFixed(0)}%)`,
-                    score: highRiskPercent * 1.5
+                    score: highRiskPercent * 1.5,
+                    students: students.filter(s => s.tier === 2).map(s => s.name)
                 },
                 { 
                     label: 'Students Below Target', 
                     value: summary.watch + summary.highRisk + summary.crisis,
-                    score: ((summary.watch + summary.highRisk + summary.crisis) / summary.totalStudents) * 100
+                    score: ((summary.watch + summary.highRisk + summary.crisis) / summary.totalStudents) * 100,
+                    students: students.filter(s => s.tier <= 3).map(s => s.name)
                 },
                 { 
                     label: 'Class Average Velocity', 
                     value: avgVel.toFixed(2) + ' u/wk',
-                    score: avgVel < 1.6 ? (2.0 - avgVel) * 50 : 0 // Only show if below threshold
+                    score: avgVel < 1.6 ? (2.0 - avgVel) * 50 : 0,
+                    students: students.filter(s => s.velocity < 1.6).map(s => s.name)
                 },
                 { 
                     label: 'Average Attendance', 
                     value: avgAtt.toFixed(1) + '%',
-                    score: avgAtt < 80 ? (85 - avgAtt) * 3 : 0 // Only show if below threshold
+                    score: avgAtt < 80 ? (85 - avgAtt) * 3 : 0,
+                    students: students.filter(s => s.avgAttendance < 80).map(s => s.name)
                 },
                 { 
                     label: 'Students Declining', 
                     value: summary.declining + summary.rapidDecline,
-                    score: ((summary.declining + summary.rapidDecline) / summary.totalStudents) * 80
+                    score: ((summary.declining + summary.rapidDecline) / summary.totalStudents) * 80,
+                    students: students.filter(s => s.acceleration < -0.5).map(s => s.name)
                 },
                 { 
                     label: 'Rapid Decline Students', 
                     value: summary.rapidDecline,
-                    score: (summary.rapidDecline / summary.totalStudents) * 120
+                    score: (summary.rapidDecline / summary.totalStudents) * 120,
+                    students: students.filter(s => s.trajectory === 'rapid_decline').map(s => s.name)
                 }
             ];
             
@@ -1546,64 +1608,90 @@
                 { 
                     label: 'Students On Track or Ahead', 
                     value: summary.onTrack,
-                    score: onTrackPercent
+                    score: onTrackPercent,
+                    students: students.filter(s => s.tier === 4).map(s => s.name)
                 },
                 { 
                     label: 'Students Improving', 
                     value: summary.improving + ` (${improvingPercent.toFixed(0)}%)`,
-                    score: improvingPercent * 1.5
+                    score: improvingPercent * 1.5,
+                    students: students.filter(s => s.acceleration > 0).map(s => s.name)
                 },
                 { 
                     label: 'Tier Promotions', 
                     value: summary.tierPromotions,
-                    score: (summary.tierPromotions / summary.totalStudents) * 150
+                    score: (summary.tierPromotions / summary.totalStudents) * 150,
+                    students: students.filter(s => s.tierChange > 0).map(s => s.name)
                 },
                 { 
                     label: 'Class Average Velocity', 
                     value: avgVel.toFixed(2) + ' u/wk',
-                    score: avgVel >= 2.0 ? (avgVel - 1.5) * 80 : 0 // Only show if above threshold
+                    score: avgVel >= 2.0 ? (avgVel - 1.5) * 80 : 0,
+                    students: students.filter(s => s.velocity >= 2.0).map(s => s.name)
                 },
                 { 
                     label: 'Average Attendance', 
                     value: avgAtt.toFixed(1) + '%',
-                    score: avgAtt >= 85 ? (avgAtt - 80) * 3 : 0 // Only show if above threshold
+                    score: avgAtt >= 85 ? (avgAtt - 80) * 3 : 0,
+                    students: students.filter(s => s.avgAttendance >= 85).map(s => s.name)
                 },
                 { 
                     label: 'High Performers', 
                     value: summary.superstars + ` (${(summary.superstars/summary.totalStudents*100).toFixed(0)}%)`,
-                    score: (summary.superstars / summary.totalStudents) * 120
+                    score: (summary.superstars / summary.totalStudents) * 120,
+                    students: students.filter(s => s.isSuperstar).map(s => s.name)
                 },
                 { 
                     label: 'Breakthrough Students', 
                     value: summary.breakthrough,
-                    score: (summary.breakthrough / summary.totalStudents) * 100
+                    score: (summary.breakthrough / summary.totalStudents) * 100,
+                    students: students.filter(s => s.trajectory === 'breakthrough').map(s => s.name)
                 }
             ];
             
             // Sort and pick top 4 with score > 0
             const topChallenges = challengeCandidates
-                .filter(c => c.score > 0)
+                .filter(c => c.score > 0 && c.students.length > 0)
                 .sort((a, b) => b.score - a.score)
                 .slice(0, 4);
             
             const topCelebrations = celebrationCandidates
-                .filter(c => c.score > 0)
+                .filter(c => c.score > 0 && c.students.length > 0)
                 .sort((a, b) => b.score - a.score)
                 .slice(0, 4);
             
-            document.getElementById('challengesContent').innerHTML = topChallenges.map(c => `
-                <div class="metric-row">
+            // Store for click handling
+            window.challengesData = topChallenges;
+            window.celebrationsData = topCelebrations;
+            
+            document.getElementById('challengesContent').innerHTML = topChallenges.map((c, idx) => `
+                <div class="metric-row" style="cursor: pointer;" onclick="showChallengeDetail(${idx})">
                     <span class="metric-label">${c.label}</span>
                     <span class="metric-value status-danger">${c.value}</span>
                 </div>
             `).join('');
             
-            document.getElementById('celebrationsContent').innerHTML = topCelebrations.map(c => `
-                <div class="metric-row">
+            document.getElementById('celebrationsContent').innerHTML = topCelebrations.map((c, idx) => `
+                <div class="metric-row" style="cursor: pointer;" onclick="showCelebrationDetail(${idx})">
                     <span class="metric-label">${c.label}</span>
                     <span class="metric-value status-good">${c.value}</span>
                 </div>
             `).join('');
+        }
+        
+        function showChallengeDetail(index) {
+            const item = window.challengesData[index];
+            if (item.students.length > 0) {
+                showFilteredList(item.students, item.label);
+            }
+        }
+        
+        function showCelebrationDetail(index) {
+            const item = window.celebrationsData[index];
+            if (item.students.length > 0) {
+                const showTierChanges = item.label.includes('Tier Promotions');
+                showFilteredList(item.students, item.label, showTierChanges);
+            }
         }
         
         function renderAdvisorSpotlight() {
@@ -1816,15 +1904,47 @@
         function renderMomentumTracker() {
             const summary = dashboardData.summary;
             
-            // Calculate changes from previous week if available
+            // Calculate changes from previous week by comparing last two dates in current data
             let changes = {};
-            if (previousData) {
+            if (dashboardData.sortedDates.length >= 2) {
+                const lastDate = dashboardData.sortedDates[dashboardData.sortedDates.length - 1];
+                const prevDate = dashboardData.sortedDates[dashboardData.sortedDates.length - 2];
+                
+                // Calculate trajectory counts for previous date
+                const prevCounts = {
+                    breakthrough: 0, building: 0, stable: 0, declining: 0, rapidDecline: 0
+                };
+                
+                dashboardData.students.forEach(student => {
+                    const recordsUpToPrev = student.records.filter(r => r.week <= prevDate);
+                    if (recordsUpToPrev.length >= 2) {
+                        const earliest = recordsUpToPrev[0];
+                        const latest = recordsUpToPrev[recordsUpToPrev.length - 1];
+                        const midPoint = Math.floor(recordsUpToPrev.length / 2);
+                        const firstHalf = recordsUpToPrev.slice(0, midPoint);
+                        const secondHalf = recordsUpToPrev.slice(midPoint);
+                        
+                        const earlyVel = firstHalf.length > 1 ? 
+                            (firstHalf[firstHalf.length - 1].completed - firstHalf[0].completed) / (firstHalf.length - 1) : 0;
+                        const recentVel = secondHalf.length > 1 ?
+                            (secondHalf[secondHalf.length - 1].completed - secondHalf[0].completed) / (secondHalf.length - 1) : 0;
+                        
+                        const accel = recentVel - earlyVel;
+                        
+                        if (accel > 1.5) prevCounts.breakthrough++;
+                        else if (accel > 0.5) prevCounts.building++;
+                        else if (accel < -1.5) prevCounts.rapidDecline++;
+                        else if (accel < -0.5) prevCounts.declining++;
+                        else prevCounts.stable++;
+                    }
+                });
+                
                 changes = {
-                    breakthrough: summary.breakthrough - previousData.summary.breakthrough,
-                    building: summary.building - previousData.summary.building,
-                    stable: summary.stableTrajectory - previousData.summary.stableTrajectory,
-                    declining: summary.decliningTrajectory - previousData.summary.decliningTrajectory,
-                    rapidDecline: summary.rapidDecline - previousData.summary.rapidDecline
+                    breakthrough: summary.breakthrough - prevCounts.breakthrough,
+                    building: summary.building - prevCounts.building,
+                    stable: summary.stableTrajectory - prevCounts.stable,
+                    declining: summary.decliningTrajectory - prevCounts.declining,
+                    rapidDecline: summary.rapidDecline - prevCounts.rapidDecline
                 };
             }
             
@@ -2053,8 +2173,8 @@
                 <tr>
                     <td><span class="student-name-link" onclick="showStudentByIndex(${studentIndex})">${s.name}</span></td>
                     <td><span class="tier-badge tier-${s.tier}">${s.tierLabel}</span></td>
-                    <td class="trajectory-${s.trajectory}">${s.trajectoryIcon} ${s.trajectoryLabel}</td>
-                    <td>${s.velocity.toFixed(2)} u/wk</td>
+                                        <td>${s.velocity.toFixed(2)} u/wk</td>
+<td class="trajectory-${s.trajectory}">${s.trajectoryIcon} ${s.trajectoryLabel}</td>
                     <td>${s.acceleration > 0 ? '+' : ''}${s.acceleration.toFixed(2)}</td>
                     <td>
                         <div class="consistency-dots">
@@ -2092,8 +2212,8 @@
                 <tr>
                     <td><span class="student-name-link" onclick="showStudentByIndex(${studentIndex})">${s.name}</span></td>
                     <td><span class="tier-badge tier-${s.tier}">${s.tierLabel}</span></td>
-                    <td class="trajectory-${s.trajectory}">${s.trajectoryIcon} ${s.trajectoryLabel}</td>
-                    <td>${s.velocity.toFixed(2)} u/wk</td>
+                                        <td>${s.velocity.toFixed(2)} u/wk</td>
+<td class="trajectory-${s.trajectory}">${s.trajectoryIcon} ${s.trajectoryLabel}</td>
                     <td>${s.acceleration > 0 ? '+' : ''}${s.acceleration.toFixed(2)}</td>
                     <td>
                         <div class="consistency-dots">
@@ -2137,7 +2257,7 @@
             // Metrics Grid
             const metrics = [
                 { label: 'Completed Units', value: student.currentUnits, heatmap: false },
-                { label: 'Behind/Ahead', value: (student.tracking > 0 ? '+' : '') + student.tracking, heatmap: false },
+                { label: 'Ahead/Behind', value: (student.tracking > 0 ? '+' : '') + student.tracking, heatmap: false },
                 { label: 'Velocity', value: student.velocity.toFixed(2) + ' u/wk', heatmap: true, type: 'velocity' },
                 { label: 'Acceleration', value: (student.acceleration > 0 ? '+' : '') + student.acceleration.toFixed(2), heatmap: true, type: 'acceleration' },
                 { label: 'Attendance', value: student.avgAttendance.toFixed(1) + '%', heatmap: true, type: 'attendance' },
@@ -2290,8 +2410,8 @@
                 <tr onclick="showStudentByIndex(${studentIndex})">
                     <td><span class="student-name-link">${s.name}${tierChangeText}</span></td>
                     <td><span class="tier-badge tier-${s.tier}">${s.tierLabel}</span></td>
-                    <td class="trajectory-${s.trajectory}">${s.trajectoryIcon} ${s.trajectoryLabel}</td>
-                    <td>${s.velocity.toFixed(2)} u/wk</td>
+                                        <td>${s.velocity.toFixed(2)} u/wk</td>
+<td class="trajectory-${s.trajectory}">${s.trajectoryIcon} ${s.trajectoryLabel}</td>
                     <td style="font-weight: bold; color: ${s.tracking >= 0 ? '#10b981' : '#ef4444'}">${s.tracking > 0 ? '+' : ''}${s.tracking}</td>
                     <td class="${getHeatmapClass(s.avgAttendance, 'attendance')}">${s.avgAttendance.toFixed(1)}%</td>
                 </tr>
