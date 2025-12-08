@@ -1,0 +1,387 @@
+{
+  "schoolYear": "2025-2026",
+  "yearStart": "2025-08-12",
+  "yearEnd": "2026-06-04",
+  "unitDeadline": "2026-05-27",
+  "totalUnitsRequired": 60,
+  "weeks": [
+    {
+      "weekNum": 1,
+      "semester": "Fall",
+      "start": "2025-08-11",
+      "end": "2025-08-17",
+      "schoolDays": 4
+    },
+    {
+      "weekNum": 2,
+      "semester": "Fall",
+      "start": "2025-08-18",
+      "end": "2025-08-24",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 3,
+      "semester": "Fall",
+      "start": "2025-08-25",
+      "end": "2025-08-31",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 4,
+      "semester": "Fall",
+      "start": "2025-09-01",
+      "end": "2025-09-07",
+      "schoolDays": 3
+    },
+    {
+      "weekNum": 5,
+      "semester": "Fall",
+      "start": "2025-09-08",
+      "end": "2025-09-14",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 6,
+      "semester": "Fall",
+      "start": "2025-09-15",
+      "end": "2025-09-21",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 7,
+      "semester": "Fall",
+      "start": "2025-09-22",
+      "end": "2025-09-28",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 8,
+      "semester": "Fall",
+      "start": "2025-09-29",
+      "end": "2025-10-05",
+      "schoolDays": 3
+    },
+    {
+      "weekNum": 9,
+      "semester": "Fall",
+      "start": "2025-10-06",
+      "end": "2025-10-12",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 10,
+      "semester": "Fall",
+      "start": "2025-10-13",
+      "end": "2025-10-19",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 11,
+      "semester": "Fall",
+      "start": "2025-10-20",
+      "end": "2025-10-26",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 12,
+      "semester": "Fall",
+      "start": "2025-10-27",
+      "end": "2025-11-02",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 13,
+      "semester": "Fall",
+      "start": "2025-11-03",
+      "end": "2025-11-09",
+      "schoolDays": 4
+    },
+    {
+      "weekNum": 14,
+      "semester": "Fall",
+      "start": "2025-11-10",
+      "end": "2025-11-16",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 15,
+      "semester": "Fall",
+      "start": "2025-11-17",
+      "end": "2025-11-23",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 16,
+      "semester": "Fall",
+      "start": "2025-11-24",
+      "end": "2025-11-30",
+      "schoolDays": 0
+    },
+    {
+      "weekNum": 17,
+      "semester": "Fall",
+      "start": "2025-12-01",
+      "end": "2025-12-07",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 18,
+      "semester": "Fall",
+      "start": "2025-12-08",
+      "end": "2025-12-14",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 19,
+      "semester": "Fall",
+      "start": "2025-12-15",
+      "end": "2025-12-21",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 20,
+      "semester": "Fall",
+      "start": "2025-12-22",
+      "end": "2025-12-28",
+      "schoolDays": 0
+    },
+    {
+      "weekNum": 21,
+      "semester": "Fall",
+      "start": "2025-12-29",
+      "end": "2026-01-04",
+      "schoolDays": 0
+    },
+    {
+      "weekNum": 22,
+      "semester": "Fall",
+      "start": "2026-01-05",
+      "end": "2026-01-11",
+      "schoolDays": 4
+    },
+    {
+      "weekNum": 23,
+      "semester": "Spring",
+      "start": "2026-01-12",
+      "end": "2026-01-18",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 24,
+      "semester": "Spring",
+      "start": "2026-01-19",
+      "end": "2026-01-25",
+      "schoolDays": 4
+    },
+    {
+      "weekNum": 25,
+      "semester": "Spring",
+      "start": "2026-01-26",
+      "end": "2026-02-01",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 26,
+      "semester": "Spring",
+      "start": "2026-02-02",
+      "end": "2026-02-08",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 27,
+      "semester": "Spring",
+      "start": "2026-02-09",
+      "end": "2026-02-15",
+      "schoolDays": 4
+    },
+    {
+      "weekNum": 28,
+      "semester": "Spring",
+      "start": "2026-02-16",
+      "end": "2026-02-22",
+      "schoolDays": 4
+    },
+    {
+      "weekNum": 29,
+      "semester": "Spring",
+      "start": "2026-02-23",
+      "end": "2026-03-01",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 30,
+      "semester": "Spring",
+      "start": "2026-03-02",
+      "end": "2026-03-08",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 31,
+      "semester": "Spring",
+      "start": "2026-03-09",
+      "end": "2026-03-15",
+      "schoolDays": 0
+    },
+    {
+      "weekNum": 32,
+      "semester": "Spring",
+      "start": "2026-03-16",
+      "end": "2026-03-22",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 33,
+      "semester": "Spring",
+      "start": "2026-03-23",
+      "end": "2026-03-29",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 34,
+      "semester": "Spring",
+      "start": "2026-03-30",
+      "end": "2026-04-05",
+      "schoolDays": 3
+    },
+    {
+      "weekNum": 35,
+      "semester": "Spring",
+      "start": "2026-04-06",
+      "end": "2026-04-12",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 36,
+      "semester": "Spring",
+      "start": "2026-04-13",
+      "end": "2026-04-19",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 37,
+      "semester": "Spring",
+      "start": "2026-04-20",
+      "end": "2026-04-26",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 38,
+      "semester": "Spring",
+      "start": "2026-04-27",
+      "end": "2026-05-03",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 39,
+      "semester": "Spring",
+      "start": "2026-05-04",
+      "end": "2026-05-10",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 40,
+      "semester": "Spring",
+      "start": "2026-05-11",
+      "end": "2026-05-17",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 41,
+      "semester": "Spring",
+      "start": "2026-05-18",
+      "end": "2026-05-24",
+      "schoolDays": 5
+    },
+    {
+      "weekNum": 42,
+      "semester": "Spring",
+      "start": "2026-05-25",
+      "end": "2026-05-31",
+      "schoolDays": 4
+    },
+    {
+      "weekNum": 43,
+      "semester": "Spring",
+      "start": "2026-06-01",
+      "end": "2026-06-07",
+      "schoolDays": 4
+    }
+  ],
+  "breaks": [
+    {
+      "name": "Labor Day",
+      "start": "2025-09-01",
+      "end": "2025-09-01"
+    },
+    {
+      "name": "Staff PD",
+      "start": "2025-09-02",
+      "end": "2025-09-02"
+    },
+    {
+      "name": "Staff PD",
+      "start": "2025-10-02",
+      "end": "2025-10-02"
+    },
+    {
+      "name": "Recess",
+      "start": "2025-10-03",
+      "end": "2025-10-03"
+    },
+    {
+      "name": "Staff PD",
+      "start": "2025-11-07",
+      "end": "2025-11-07"
+    },
+    {
+      "name": "Thanksgiving Break",
+      "start": "2025-11-24",
+      "end": "2025-11-28"
+    },
+    {
+      "name": "Winter Break",
+      "start": "2025-12-22",
+      "end": "2026-01-02"
+    },
+    {
+      "name": "Staff PD",
+      "start": "2026-01-05",
+      "end": "2026-01-05"
+    },
+    {
+      "name": "MLK Day",
+      "start": "2026-01-19",
+      "end": "2026-01-19"
+    },
+    {
+      "name": "Staff PD",
+      "start": "2026-02-13",
+      "end": "2026-02-13"
+    },
+    {
+      "name": "Presidents Day",
+      "start": "2026-02-16",
+      "end": "2026-02-16"
+    },
+    {
+      "name": "Spring Break",
+      "start": "2026-03-09",
+      "end": "2026-03-13"
+    },
+    {
+      "name": "Chavez-Huerta Day",
+      "start": "2026-03-30",
+      "end": "2026-03-30"
+    },
+    {
+      "name": "Recess",
+      "start": "2026-04-03",
+      "end": "2026-04-03"
+    },
+    {
+      "name": "Memorial Day",
+      "start": "2026-05-25",
+      "end": "2026-05-25"
+    }
+  ]
+}
